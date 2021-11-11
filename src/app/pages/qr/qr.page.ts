@@ -20,7 +20,9 @@ export class QrPage implements OnInit {
     fecha:'',
   }
 
-  code: any;
+  code:string;
+  key:string = 'DatosQR';
+
 
   constructor(private alertController:AlertController, private navCtrl:NavController, private storage:Storage) { 
   }
@@ -40,7 +42,7 @@ export class QrPage implements OnInit {
       if (videoDevices.length > 0){
           let choosenDev;
           for (const dev of videoDevices){
-              if (dev.label.includes('back')){
+              if (dev.label.includes('front')){
                   choosenDev = dev;
                   break;
               }
@@ -50,17 +52,17 @@ export class QrPage implements OnInit {
               this.qrScannerComponent.chooseCamera.next(choosenDev);  
               
           } else {
-              this.qrScannerComponent.chooseCamera.next(videoDevices[0]);
+              this.qrScannerComponent.chooseCamera.next(videoDevices[1]);
               
           }
       }
   });
 
   this.qrScannerComponent.capturedQr.subscribe(result => {
-      this.code = result;
+      this.code = result 
       console.log(result)
       
-
+      
     
     
   });
@@ -88,9 +90,9 @@ async presentAlert() {
     await alert.present();
   }
 
-  async guardar(registr:Register )
+  async guardar()
   {
-    await this.storage.set(registr.nombre,registr);
+    await this.storage.set(this.key, this.code);
   } 
    
  
@@ -98,7 +100,7 @@ async presentAlert() {
 
   onSubmit()
   {
-    this.guardar(this.code)
+    
   }
 
 }
