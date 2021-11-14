@@ -15,13 +15,11 @@ export class QrPage implements OnInit {
 
   register:Register=
   {
-    nombre:'',
-    seccion:'',
-    fecha:'',
+    nombre:''
   }
 
   code:string;
-  key:string = 'DatosQR';
+  key:string;
 
 
   constructor(private alertController:AlertController, private navCtrl:NavController, private storage:Storage) { 
@@ -60,6 +58,8 @@ export class QrPage implements OnInit {
 
   this.qrScannerComponent.capturedQr.subscribe(result => {
       this.code = result 
+      this.key = result
+      this.guardar() 
       console.log(result)
       
       
@@ -92,6 +92,9 @@ async presentAlert() {
 
   async guardar()
   {
+
+    //coleccion temporal y vaciar datos encima
+    //agrgar nuevo escaneo a la coleccion temporal
     await this.storage.set(this.key, this.code);
   } 
    

@@ -12,9 +12,7 @@ export class AsistenciaPage implements OnInit {
 
   register:Register=
   {
-    nombre:'',
-    seccion:'',
-    fecha:'',
+    nombre:''
   }
 
   constructor(private storage:Storage, private alertController:AlertController, private navCtrl:NavController) { }
