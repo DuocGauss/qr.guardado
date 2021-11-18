@@ -59,6 +59,8 @@ export class QrPage implements OnInit {
   this.qrScannerComponent.capturedQr.subscribe(result => {
       this.code = result 
       this.key = result
+      let datos = this.key.split(',')
+      console.log(datos)
       this.guardar() 
       this.guardarcode()
       console.log(result)
