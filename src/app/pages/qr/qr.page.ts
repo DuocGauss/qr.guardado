@@ -2,7 +2,7 @@ import {Component, ViewChild, ViewEncapsulation, OnInit} from '@angular/core';
 import {QrScannerComponent} from 'angular2-qrscanner';
 import { AlertController, NavController } from '@ionic/angular';
 import { Register } from 'src/app/interfaces/register';
-
+import { NavigationExtras, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular'
 
 @Component({
@@ -22,7 +22,7 @@ export class QrPage implements OnInit {
   key:string;
 
 
-  constructor(private alertController:AlertController, private navCtrl:NavController, private storage:Storage) { 
+  constructor(private alertController:AlertController, private navCtrl:NavController, private storage:Storage, private router:Router) { 
   }
   @ViewChild(QrScannerComponent,
     {static:true}) qrScannerComponent: QrScannerComponent ;
@@ -60,6 +60,7 @@ export class QrPage implements OnInit {
       this.code = result 
       this.key = result
       this.guardar() 
+      this.guardarcode()
       console.log(result)
       
       
@@ -96,15 +97,22 @@ async presentAlert() {
     //coleccion temporal y vaciar datos encima
     //agrgar nuevo escaneo a la coleccion temporal
     await this.storage.set(this.key, this.code);
+    
   } 
    
  
-  
+ guardarcode()
+ {
+   let navigationExtras:NavigationExtras = {
+     state:{
+       codigo:this.code
+     }
+   }
+   this.router.navigate(['/asistencia'],navigationExtras)
+ }
 
-  onSubmit()
-  {
-    
-  }
+ 
+  
 
 }
 

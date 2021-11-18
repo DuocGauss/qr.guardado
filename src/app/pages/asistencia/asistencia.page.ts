@@ -1,37 +1,51 @@
-import { Component, OnInit } from '@angular/core';
-import { Register } from 'src/app/interfaces/register';
+import { Component} from '@angular/core';
+
 import { AlertController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.page.html',
   styleUrls: ['./asistencia.page.scss'],
 })
-export class AsistenciaPage implements OnInit {
+export class AsistenciaPage{
+  code='';
 
-  register:Register=
-  {
-    nombre:''
-  }
+  codes:Array<any> = [
+    {
+      nombre:"ASISTENCIA REGISTRADA EN INI5111-003D INGLÉS INTERMEDIO"
+    },
+    {
+      nombre:"ASISTENCIA REGISTRADA EN EAY4470-002D ETICA"
+    },
+    {
+      nombre:"ASISTENCIA REGISTRADA EN CSY4111-002D CALIDAD DE SOFTWARE"
+    }
+  ]
+  
+  constructor(private storage:Storage, private alertController:AlertController, private navCtrl:NavController, private activeroute:ActivatedRoute, private router:Router,) { 
+  this.activeroute.queryParams.subscribe(params => {
 
-  constructor(private storage:Storage, private alertController:AlertController, private navCtrl:NavController) { }
+    if (this.router.getCurrentNavigation().extras.state) {
+
+      this.code = this.router.getCurrentNavigation().extras.state.codigo;
+
+      console.log(this.code);
+
+   }
+
+ });
+}
+
 
   ngOnInit() {
   }
 
 
 
-  async guardar(registr:Register)
-  {
-    await this.storage.set(registr.nombre,registr);
-  } 
+  
 
-  onSubmit()
-  {
-    console.log(this.register);
-    this.guardar(this.register)
-  } 
 
 
   async presentAlert() {
